@@ -16,7 +16,7 @@ import { CoverageWheel, RoomStrip } from "../../src/components/Widgets";
 import { saveSetting } from "../../src/data/repo";
 import { remedies } from "../../src/lib/packplan";
 import { ESSENTIALS } from "../../src/lib/firstnight";
-import { addDays } from "../../src/lib/time";
+import { addDays, weekdayLabel } from "../../src/lib/time";
 import { pct, plural } from "../../src/ui/format";
 import { haptics } from "../../src/services/haptics";
 
@@ -41,6 +41,11 @@ export default function PlanTab() {
   const [wd, setWd] = useState(settings.weekdayMin);
   const [we, setWe] = useState(settings.weekendMin);
   const [helper, setHelper] = useState<number | null>(null);
+  // Вкладки не пересоздаются — исходные значения what-if подтягиваем из настроек при их смене.
+  useEffect(() => {
+    setWd(settings.weekdayMin);
+    setWe(settings.weekendMin);
+  }, [settings.weekdayMin, settings.weekendMin]);
   const alt = useMemo(() => (tab === "whatif" ? m.build({ moveShift: shift, weekdayMin: wd, weekendMin: we, helperDay: helper }) : null), [tab, shift, wd, we, helper, m]);
   const weekendDays = Array.from({ length: m.days }, (_, d) => d).filter((d) => m.isWeekend(d)).slice(0, 4);
 
@@ -70,7 +75,7 @@ export default function PlanTab() {
       {tab === "pack" ? (
         <ScrollView contentContainerStyle={{ paddingHorizontal: 16, gap: 12, paddingBottom: 30 }}>
           <Animated.View entering={FadeInDown.duration(400)} style={{ backgroundColor: t.colors.surface, borderRadius: 22, padding: 14, gap: 10 }}>
-            <RoomStrip rooms={rooms.map((r) => ({ id: r.id, name: r.name, kind: r.kind, window: r.window_days }))} chunks={p.chunks} days={m.days} dayLabel={(d) => (d === 0 ? "Today" : m.dayName(d))} selected={room} onSelect={setRoom} />
+            <RoomStrip rooms={rooms.map((r) => ({ id: r.id, name: r.name, kind: r.kind, window: r.window_days }))} chunks={p.chunks} days={m.days} dayLabel={(d) => weekdayLabel(addDays(today, d))} selected={room} onSelect={setRoom} />
             {selRoom ? (
               <View style={{ backgroundColor: t.colors.surfaceAlt, borderRadius: 14, padding: 12, gap: 4 }}>
                 <Text style={{ ...t.typography.label, color: t.colors.ink }}>

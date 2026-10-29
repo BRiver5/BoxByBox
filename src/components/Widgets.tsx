@@ -110,7 +110,7 @@ export function CoverageWheel({ wanted, covered, size = 200, selected, onSelect,
             const rr = (r0 + r1) / 2;
             return (
               <SvgText key={`t${s.e.key}`} x={c + rr * Math.cos(a)} y={c + rr * Math.sin(a) + 4} fontSize={10} fontWeight="700" fill={covered.includes(s.e.key) ? "#FFFFFF" : t.colors.accent} textAnchor="middle">
-                {s.e.label.split(" ")[0].slice(0, 6)}
+                {s.e.short}
               </SvgText>
             );
           })}
@@ -129,8 +129,8 @@ export function BoxTag({ num, room, kind, label, weight, fragile, status }: { nu
   return (
     <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
       <View style={{ width: 52, height: 52, borderRadius: 10, backgroundColor: status === "open" ? t.colors.surfaceAlt : t.colors.kraft, borderWidth: status === "open" ? 2 : 0, borderStyle: "dashed", borderColor: t.colors.kraft, alignItems: "center", justifyContent: "center" }}>
-        <Text style={{ fontSize: 20, fontWeight: "800", color: status === "open" ? t.colors.kraft : "#FFFFFF" }}>{num}</Text>
-        {status !== "open" ? <View style={{ position: "absolute", top: 0, bottom: 0, width: 8, backgroundColor: t.colors.accent, opacity: 0.85 }} /> : null}
+        {status !== "open" ? <View style={{ position: "absolute", top: 0, bottom: 0, left: 0, right: 0, alignItems: "center" }}><View style={{ width: 8, height: "100%", backgroundColor: t.colors.accent, opacity: 0.5 }} /></View> : null}
+        <Text style={{ fontSize: 20, fontWeight: "800", color: status === "open" ? t.colors.kraft : "#FFFFFF", textShadowColor: "rgba(0,0,0,0.25)", textShadowRadius: status === "open" ? 0 : 2 }}>{num}</Text>
       </View>
       <View style={{ flex: 1, gap: 2 }}>
         <Text numberOfLines={1} style={{ ...t.typography.label, fontSize: 15, color: t.colors.ink }}>{label || "Untitled box"}</Text>

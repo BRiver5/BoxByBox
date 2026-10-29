@@ -38,7 +38,7 @@ function brute(rooms: RoomWork[], caps: number[], days: number): [number, number
   return best;
 }
 
-test("backward greedy packing is optimal on nested windows", () => {
+test("greedy packing by window is optimal on nested windows and front-loads free rooms", () => {
   const cases: { rooms: RoomWork[]; caps: number[] }[] = [
     { rooms: [{ id: "k", minutes: 90, sd: 10, window: 1 }, { id: "s", minutes: 60, sd: 10, window: 4 }, { id: "b", minutes: 60, sd: 10, window: 2 }], caps: [60, 60, 60, 60] },
     { rooms: [{ id: "k", minutes: 120, sd: 10, window: 1 }, { id: "s", minutes: 30, sd: 10, window: 3 }], caps: [30, 30, 60] },
@@ -51,6 +51,10 @@ test("backward greedy packing is optimal on nested windows", () => {
     assert.equal(p.late, late);
     assert.equal(p.early, early);
   }
+  // Кладовка (длинное окно) начинается сегодня, кухня — накануне.
+  const p = planPacking([{ id: "k", minutes: 60, sd: 5, window: 1 }, { id: "s", minutes: 60, sd: 5, window: 10 }], [0, 1, 2, 3].map((d) => ({ day: d, minutes: 60 })), 4);
+  assert.equal(p.chunks.find((c) => c.room === "s")!.day, 0);
+  assert.equal(p.chunks.find((c) => c.room === "k")!.day, 3);
 });
 
 test("remedies are verified and actually help", () => {

@@ -4,17 +4,17 @@
 // текущее покрытие + веса ещё не закрытых категорий, которые есть в оставшихся
 // коробках. Коробки без «первой ночи» в перебор не попадают.
 
-export const ESSENTIALS: { key: string; label: string; weight: number }[] = [
-  { key: "bed", label: "Bed linen", weight: 5 },
-  { key: "meds", label: "Medicine", weight: 5 },
-  { key: "toiletries", label: "Toiletries", weight: 4 },
-  { key: "kids", label: "Kids' things", weight: 4 },
-  { key: "pet", label: "Pet supplies", weight: 4 },
-  { key: "clothes", label: "Tomorrow's clothes", weight: 3 },
-  { key: "chargers", label: "Chargers", weight: 3 },
-  { key: "kettle", label: "Kettle & mugs", weight: 2 },
-  { key: "tools", label: "Basic tools", weight: 1 },
-  { key: "cleaning", label: "Cleaning kit", weight: 1 },
+export const ESSENTIALS: { key: string; label: string; short: string; weight: number }[] = [
+  { key: "bed", short: "Bed", label: "Bed linen", weight: 5 },
+  { key: "meds", short: "Meds", label: "Medicine", weight: 5 },
+  { key: "toiletries", short: "Wash kit", label: "Toiletries", weight: 4 },
+  { key: "kids", short: "Kids", label: "Kids' things", weight: 4 },
+  { key: "pet", short: "Pet", label: "Pet supplies", weight: 4 },
+  { key: "clothes", short: "Clothes", label: "Tomorrow's clothes", weight: 3 },
+  { key: "chargers", short: "Chargers", label: "Chargers", weight: 3 },
+  { key: "kettle", short: "Kettle", label: "Kettle & mugs", weight: 2 },
+  { key: "tools", short: "Tools", label: "Basic tools", weight: 1 },
+  { key: "cleaning", short: "Cleaning", label: "Cleaning kit", weight: 1 },
 ];
 export const WEIGHT: Record<string, number> = Object.fromEntries(ESSENTIALS.map((e) => [e.key, e.weight]));
 
